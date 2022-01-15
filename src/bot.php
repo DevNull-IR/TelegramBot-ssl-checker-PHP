@@ -20,7 +20,6 @@ foreach ($telegram_ip_ranges as $telegram_ip_range) if (!$ok) {
     $upper_dec = (float) sprintf("%u", ip2long($telegram_ip_range['upper']));
     if ($ip_dec >= $lower_dec and $ip_dec <= $upper_dec) $ok=true;
 }
-
 if (!$ok) die("This page is for Telegram Online :)");
 const token = ""; //token bot
 function bot($method,$datas=[]){
@@ -36,7 +35,6 @@ function bot($method,$datas=[]){
         return json_decode($res);
     }
 }
-
 function check_channel_member($channel , $chat_id){
 	$res = bot("getChatMember" , array("chat_id" => $channel , "user_id" => $chat_id));
 	if(isset($res->result->user) && $res->result->status == "member"){
@@ -49,7 +47,6 @@ function check_channel_member($channel , $chat_id){
 	    return "no";
 	}
 }
-
 $update = json_decode(file_get_contents('php://input'));
 $message = $update->message;
 $message_id = $message->message_id;
@@ -58,7 +55,6 @@ $chat_id = $message->chat->id;
 $tc = $message->chat->type;
 $first_name = $message->from->first_name;
 $from_id = $message->from->id;
-
 @mkdir("member");
 $step = file_get_contents("member/$from_id.user");
 $channel = "iso_plus";
@@ -71,11 +67,9 @@ if(check_channel_member("@".$channel, $chat_id)=="no"){
 [🆔] @$channel
 لطفا بعد از عضویت در کانال ها (/start) کلیک کنید❗️️",
               'parse_mode'=>"HTML",
-        ]);
-    
+        ]); 
 return false;
 }
-
 elseif(file_exists("member/$from_id.user") !== true){
     file_put_contents("member/$from_id.user",NULL);
        bot('sendmessage',[
@@ -87,8 +81,7 @@ elseif(file_exists("member/$from_id.user") !== true){
 }
 elseif($text == "/start" or $text == "🔙 بازگشت"){
     file_put_contents("member/$from_id.user","$from_id");
-    if($text != "🔙 بازگشت"){
-            
+    if($text != "🔙 بازگشت"){    
     bot('sendmessage',[
         'chat_id'=>$from_id,
         'text'=>"🙂 سلام به ربات ssl چکر خوش آمدید برای چک کردن ssl میتوانید از دکمه ی زیر استفاده کنید",
@@ -99,9 +92,7 @@ elseif($text == "/start" or $text == "🔙 بازگشت"){
               [['text'=>"🛠 چک کردن ssl "],['text'=>"💠 درباره ی ما"]],
               ], 'resize_keyboard'=>true
               ])
-
         ]);
-
     }else{
             bot('sendmessage',[
         'chat_id'=>$from_id,
@@ -122,7 +113,6 @@ elseif($text == "/start" or $text == "🔙 بازگشت"){
         ]);
     }
 }
-
 elseif($text == "🛠 چک کردن ssl"){
     file_put_contents("member/$from_id.user","$from_id"."check");
                 bot('sendmessage',[
@@ -173,7 +163,6 @@ $st = str_replace( "(" , "" , $match[2][0]);
         ",
         'reply_to_message_id'=>$message_id,
         ]);
-
             die();
         }
                         bot('sendmessage',[
@@ -189,7 +178,6 @@ $st = str_replace( "(" , "" , $match[2][0]);
         'reply_to_message_id'=>$message_id,
         ]);
 }
-
 elseif($text == "💠 درباره ی ما"){
          bot('sendmessage',[
         'chat_id'=>$from_id,
